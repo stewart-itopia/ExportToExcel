@@ -22,6 +22,7 @@ namespace ExportToExcel
             return CreateExcelDocument(ds, xlsxFilePath);
         }
         #region HELPER_FUNCTIONS
+
         //  This function is adapated from: http://www.codeguru.com/forum/showthread.php?t=450171
         //  My thanks to Carl Quirion, for making it "nullable-friendly".
         public static DataTable ListToDataTable<T>(List<T> list)
@@ -73,7 +74,7 @@ namespace ExportToExcel
         private static Type GetNullableType(Type t)
         {
             Type returnType = t;
-            if (t.IsGenericType && t.GetGenericTypeDefinition().Equals(typeof(Nullable<>)))
+            if (t.IsGenericType && t.GetGenericTypeDefinition() == typeof(Nullable<>))
             {
                 returnType = Nullable.GetUnderlyingType(t);
             }
@@ -84,7 +85,7 @@ namespace ExportToExcel
             return (type == typeof(string) ||
                     type.IsArray ||
                     (type.IsGenericType &&
-                     type.GetGenericTypeDefinition().Equals(typeof(Nullable<>))));
+                     type.GetGenericTypeDefinition() == typeof(Nullable<>)));
         }
 
         public static bool CreateExcelDocument(DataTable dt, string xlsxFilePath)
@@ -97,7 +98,6 @@ namespace ExportToExcel
         }
         #endregion
 
-#if INCLUDE_WEB_FUNCTIONS
         /// <summary>
         /// Create an Excel file, and write it out to a MemoryStream (rather than directly to a file)
         /// </summary>
@@ -183,7 +183,7 @@ namespace ExportToExcel
                 return false;
             }
         }
-#endif      //  End of "INCLUDE_WEB_FUNCTIONS" section
+
 
         /// <summary>
         /// Create an Excel file, and write it to a file.
